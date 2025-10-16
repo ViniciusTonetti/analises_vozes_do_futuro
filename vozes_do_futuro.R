@@ -1,8 +1,11 @@
 # Análises Vozes do Futuro - FAPESP
 # Vinicius Tonetti - vrtonetti@ufscar.br
 
-# Carregando pacotes
+# Carregando pacotes -----------------------------------------------------------
 library(tidyr)
 
-# Limpar ambiente
-rm(list = ls())
+# Limpando ambiente ------------------------------------------------------------
+rm(list = ls()) 
+
+# Criando dados ----------------------------------------------------------------
+
