@@ -9,39 +9,35 @@ rm(list = ls())
 
 # Criando dados ----------------------------------------------------------------
 
- dados <- "respondentes: 21
- jovens cientistas: 19
- bolsistas de mestrado: 1
- bolsistas de doutorado: 5
- bolsistas de Pós-Doutorado:9
- bolsistas Jovens Pesquisadores: 3
- bolsistas de Jornalismo Científico: 1
- Instituições envolvidas: 6
- participantes INPE: 5
- participantes USP: 8
- participantes UNICAMP: 2
- participantes UNESP: 3
- participantes Cemaden: 1
- representantes da FAPESP: 2
- mulheres (cis e trans): 9
- homens (cis e trans): 12
- pessoas não binárias ou fluídas: 0
- pessoas brancas: 17
- pessoas pardas: 3
- pessoas pretas: 1
- pessoas indígenas: 0"
+df <- tribble(
+   ~Categoria, ~Valor, ~Grupo,
+   "jovens cientistas", 19, "Jovens cientistas",
+   "Mestrado", 1, "Bolsistas",
+   "Doutorado", 5, "Bolsistas",
+   "Pós-Doutorado", 9, "Bolsistas",
+   "Jovens Pesquisadores", 3, "Bolsistas",
+   "Jornalismo Científico", 1, "Bolsistas",
+   "INPE", 5, "Instituições",
+   "USP", 8, "Instituições",
+   "UNICAMP", 2, "Instituições",
+   "UNESP", 3, "Instituições",
+   "Cemaden", 1, "Instituições",
+   "FAPESP", 2, "Instituições",
+   "Mulheres (cis e trans)", 9, "Gênero",
+   "Homens (cis e trans)", 12, "Gênero",
+   "Pessoas não binárias ou fluídas", 0, "Gênero",
+   "Pessoas brancas", 17, "Autodeclaração racial",
+   "Pessoas pardas", 3, "Autodeclaração racial",
+   "Pessoas pretas", 1, "Autodeclaração racial",
+   "Pessoas indígenas", 0, "Autodeclaração racial"
+ )
+ 
+# Plots ------------------------------------------------------------------------
 
-# Transformando dados em tible
- 
-df <- tibble(text = str_split(dados, "\n")[[1]]) %>%
-   filter(text != "") %>%
-   separate(text, into = c("Categoria", "Valor"), sep = ":", extra = "merge") %>%
-   mutate(across(everything(), str_trim),
-          Valor = as.numeric(Valor))
- 
- 
- 
- 
- 
- 
+ggplot(df, aes(x = reorder(Categoria, Valor), y = Valor, fill = Grupo)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~Grupo, scales = "free_y", ncol = 2) +
+  coord_flip() +
+  labs(x = "", y = "Número de pessoas") +
+  theme_minimal(base_size = 13)
 
