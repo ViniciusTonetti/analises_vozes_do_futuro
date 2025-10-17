@@ -7,6 +7,7 @@ library(ggwordcloud)
 library(ggplot2)
 library(tibble)
 library(tidyverse)
+library(RColorBrewer)
 
 # Limpando ambiente ------------------------------------------------------------
 rm(list = ls())
@@ -53,11 +54,13 @@ df <- tribble(
 
 
 # Salvando o plot
-ggsave(paste0("",output_folder,"prop_grupos.jpeg"), prop_grupos, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"prop_grupos.jpeg"), prop_grupos, width = 20, height = 15, units = "cm", dpi = 300)
 
 # Nuvem de palavras ------------------------------------------------------------
 
-words <- tribble(
+# COP 30 
+
+words_COP30 <- tribble(
 ~Palavra, ~Frequencia,
 "Adaptação", 12,
 "Mitigação", 7,
@@ -75,11 +78,50 @@ words <- tribble(
 "NDCs ou 1,5ºC", 25
 )
 
-ggplot(words, aes(label = Palavra, size = Frequencia, color = Frequencia)) +
+(
+  wc <- ggplot(words_COP30, aes(label = Palavra, size = Frequencia, color = Frequencia)) +
   geom_text_wordcloud(area_corr = TRUE, family = "sans") +
   scale_size_area(max_size = 20) +
-  scale_color_gradient(low = "darkgreen", high = "lightgreen") +
+  scale_color_viridis_c(option = "turbo") +
   theme_minimal() +
   theme(legend.position = "none")
+  )
+
+# Salvando o plot
+#ggsave(paste0("",output_folder,"word_cloud COP 30.jpeg"), wc, width = 20, height = 15, units = "cm", dpi = 300)
+
+
+# Vozes do Futuro
+
+words_vozes <- tribble(
+  ~Palavra, ~Frequencia,
+  "Adaptação", 16,
+  "Mitigação", 10,
+  "Transição Energética", 8,
+  "Fonte", 0,
+  "Emissões", 5,
+  "Biodiversidade", 31,
+  "Urbano", 10,
+  "Recursos Financeiros", 22,
+  "Justiça / Injustiça", 16,
+  "Desigualdade", 6,
+  "Ciência", 27,
+  "Conhecimento", 19,
+  "População Vulnerável", 11,
+  "NDCs ou 1,5ºC", 9
+)
+
+(
+  wc <- ggplot(words_vozes, aes(label = Palavra, size = Frequencia, color = Frequencia)) +
+    geom_text_wordcloud(area_corr = TRUE, family = "sans") +
+    scale_size_area(max_size = 20) +
+    scale_color_viridis_c(option = "turbo") +
+    theme_minimal() +
+    theme(legend.position = "none")
+)
+
+# Salvando o plot
+#ggsave(paste0("",output_folder,"word_cloud_vozes.jpeg"), wc, width = 20, height = 15, units = "cm", dpi = 300)
+
 
 
