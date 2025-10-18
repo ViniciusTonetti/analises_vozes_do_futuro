@@ -5,11 +5,15 @@
 
 library(ggwordcloud)
 library(ggplot2)
+library(lemon)
 library(tibble)
 library(tidyverse)
 library(RColorBrewer)
 
-# Limpando ambiente ------------------------------------------------------------
+
+
+# Limpando ambiente e output folder --------------------------------------------
+
 rm(list = ls())
 
 output_folder <- "E:/GitHub_Vinicius/analises_vozes_do_futuro/"
