@@ -3,6 +3,7 @@
 
 # Carregando pacotes -----------------------------------------------------------
 
+
 library(ggwordcloud)
 library(ggplot2)
 library(lemon)
@@ -10,7 +11,7 @@ library(tibble)
 library(tidyverse)
 library(RColorBrewer)
 library(readxl)
-
+library(ggalluvial)
 
 
 # Limpando ambiente e output folder --------------------------------------------
@@ -132,14 +133,43 @@ words_vozes <- tribble(
 
 ## Aluvial plot ----------------------------------------------------------------
 
-dados_part <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_participacao <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_participacao <- data.frame(dados_participacao)
+colnames(dados_participacao)
 
-colnames(dados_part)
+dados_participacao <- dados_participacao %>% 
+  select(Instituição.padronizada.Vinicius, Tipo.de.Instituição, Cargo.padronizado.Vinicius, Tipo.de.partipação)
 
-dados_part %>% 
-  select(`Instituição padronizada Vinicius`, `Cargo padronizado Vinicius`, `Tipo de partipação`)
+dados_participacao <- dados_participacao |>
+  dplyr::count(Instituição.padronizada.Vinicius,
+               Tipo.de.Instituição,
+               Cargo.padronizado.Vinicius,
+               Tipo.de.partipação,
+               name = "Freq")
+
+colnames(dados_participacao)
 
 
+# Checando se é compatível com o pacote
 
+ggalluvial::is_alluvia_form(dados_participacao, axes = 1:4, silent = TRUE)
+is_alluvia_form(dados_participacao, axes = 1:4)
 
+# plot
+
+ggplot(dados_participacao,
+       aes(y = Freq,
+           axis1 = Tipo.de.Instituição,
+           axis2 = Cargo.padronizado.Vinicius,
+           axis3 = Tipo.de.partipação)) +
+  scale_x_discrete(labels = c("Tipo de Instituição", "Cargo", "Tipo de participação"),
+                   expand = c(.05, .05)) +
+  geom_alluvium(aes(fill = Tipo.de.Instituição), width = 1/12) +
+  geom_stratum(width = 1/12, fill = "gray80", color = "gray40") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3) +
+  
+  theme_minimal() +
+  labs(title = "",
+       x = "", y = "Frequência",
+       fill = "Instituição")
 
