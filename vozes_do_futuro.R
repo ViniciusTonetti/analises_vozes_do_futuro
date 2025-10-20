@@ -30,7 +30,7 @@ df <- tribble(
    "INPE", 5, "Instituições",
    "USP", 8, "Instituições",
    "UNICAMP", 2, "Instituições",
-   "UNESP", 3, "Instituições",
+   "Unesp", 3, "Instituições",
    "Cemaden", 1, "Instituições",
    "FAPESP", 2, "Instituições",
    "Mulheres (cis e trans)", 9, "Gênero",
