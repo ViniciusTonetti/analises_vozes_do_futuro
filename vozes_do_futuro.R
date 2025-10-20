@@ -9,6 +9,7 @@ library(lemon)
 library(tibble)
 library(tidyverse)
 library(RColorBrewer)
+library(readxl)
 
 
 
@@ -126,6 +127,19 @@ words_vozes <- tribble(
 
 # Salvando o plot
 #ggsave(paste0("",output_folder,"word_cloud_vozes.jpeg"), wc, width = 20, height = 15, units = "cm", dpi = 300)
+
+
+
+## Aluvial plot ----------------------------------------------------------------
+
+dados_part <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+
+colnames(dados_part)
+
+dados_part %>% 
+  select(`Instituição padronizada Vinicius`, `Cargo padronizado Vinicius`, `Tipo de partipação`)
+
+
 
 
 
