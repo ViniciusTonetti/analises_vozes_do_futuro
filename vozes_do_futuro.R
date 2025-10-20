@@ -138,12 +138,11 @@ dados_participacao <- data.frame(dados_participacao)
 colnames(dados_participacao)
 
 dados_participacao <- dados_participacao %>% 
-  select(Instituição.padronizada.Vinicius, Tipo.de.Instituição, Cargo.padronizado.Vinicius, Tipo.de.partipação)
+  select(Tipo.de.Instituição.Categoria, Tipo.de.cargo, Tipo.de.partipação)
 
 dados_participacao <- dados_participacao |>
-  dplyr::count(Instituição.padronizada.Vinicius,
-               Tipo.de.Instituição,
-               Cargo.padronizado.Vinicius,
+  dplyr::count(Tipo.de.Instituição.Categoria,
+               Tipo.de.cargo,
                Tipo.de.partipação,
                name = "Freq")
 
@@ -157,19 +156,35 @@ is_alluvia_form(dados_participacao, axes = 1:4)
 
 # plot
 
-ggplot(dados_participacao,
+(plot_participacao <- ggplot(dados_participacao,
        aes(y = Freq,
-           axis1 = Tipo.de.Instituição,
-           axis2 = Cargo.padronizado.Vinicius,
+           axis1 = Tipo.de.Instituição.Categoria,
+           axis2 = Tipo.de.cargo,
            axis3 = Tipo.de.partipação)) +
   scale_x_discrete(labels = c("Tipo de Instituição", "Cargo", "Tipo de participação"),
                    expand = c(.05, .05)) +
-  geom_alluvium(aes(fill = Tipo.de.Instituição), width = 1/12) +
-  geom_stratum(width = 1/12, fill = "gray80", color = "gray40") +
-  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3) +
+  geom_alluvium(aes(fill = Tipo.de.Instituição.Categoria), width = 1/20) +
+  geom_stratum(width = 1/20, fill = "gray80", color = "gray40") +
+    scale_fill_manual(values = c(
+      "#66A61E",
+      "#E6AB02",
+      "#666666",
+      "red",
+      "#8DA0CB" 
+    ))+
+  geom_text(stat = "stratum",
+           aes(label = after_stat(stratum)),
+            #nudge_x = -0.5,
+        size = 3) +
   
   theme_minimal() +
   labs(title = "",
        x = "", y = "Frequência",
-       fill = "Instituição")
+       fill = ""))
+
+# Salvando o plot
+ggsave(paste0("",output_folder,"relacao_participantes.jpeg"), plot_participacao, width = 20, height = 15, units = "cm", dpi = 300)
+
+
+
 
