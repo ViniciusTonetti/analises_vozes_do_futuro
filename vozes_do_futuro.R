@@ -303,8 +303,16 @@ dados_pizza$legend_label <- fct_reorder(
 #ggsave(paste0("",output_folder,"donut_universidaes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
 
 
+# Calculando porcentagens
 
+dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_instituicoes <- data.frame(dados_instituicoes)
+colnames(dados_instituicoes)
+head(dados_instituicoes)
 
-
+dados_instituicoes %>%
+  count(Tipo.de.Instituição.Categoria) %>%
+  mutate(prop = n / sum(n)) %>%
+  arrange(desc(prop))
 
 
