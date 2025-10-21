@@ -12,6 +12,8 @@ library(tidyverse)
 library(RColorBrewer)
 library(readxl)
 library(ggalluvial)
+library(ggrepel)
+library(forcats)
 
 
 # Limpando ambiente e output folder --------------------------------------------
@@ -186,5 +188,98 @@ is_alluvia_form(dados_participacao, axes = 1:4)
 ggsave(paste0("",output_folder,"relacao_participantes.jpeg"), plot_participacao, width = 20, height = 15, units = "cm", dpi = 300)
 
 
+# Proporção Instituições -------------------------------------------------------
+
+dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_instituicoes <- data.frame(dados_instituicoes)
+colnames(dados_instituicoes)
+head(dados_instituicoes)
+
+
+dados_instituicoes <- dados_instituicoes %>% 
+  select(Tipo.de.Instituição.Categoria, Instituição.padronizada.Vinicius)
+
+
+# calcular contagens
+
+dados_counts <- dados_instituicoes %>%
+  count(Tipo.de.Instituição.Categoria, name = "n") %>%
+  arrange(n)
+
+# transformar em fator com níveis nessa ordem (menor -> maior),
+# assim o maior ficará no topo do eixo y (posições mais altas)
+
+dados_counts$Tipo.de.Instituição.Categoria <- factor(
+  dados_counts$Tipo.de.Instituição.Categoria,
+  levels = dados_counts$Tipo.de.Instituição.Categoria
+)
+
+# plot
+(hist_inst <- ggplot(dados_counts, aes(y = Tipo.de.Instituição.Categoria, x = n)) +
+    geom_col(fill = "lightgray", width = 0.6, show.legend = FALSE) +
+    labs(
+      x = "Número de pessoas",
+      y = ""
+    ) +
+    theme_minimal(base_size = 13) +
+    theme(
+      strip.text = element_text(face = "bold"),
+      axis.title.y = element_text(face = "bold"),
+      axis.title.x = element_text(face = "bold")
+    ))
+
+
+
+# Gráfico de Pizza -------------------------------------------------------------
+
+# Preoarando os dados
+
+dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_instituicoes <- data.frame(dados_instituicoes)
+colnames(dados_instituicoes)
+head(dados_instituicoes)
+
+
+dados_instituicoes <- dados_instituicoes %>% 
+  select(Tipo.de.Instituição.Categoria, Instituição.padronizada.Vinicius) %>% 
+  filter(Tipo.de.Instituição.Categoria == "Universidade") %>% 
+  select(Instituição.padronizada.Vinicius)
+
+dados_pizza <- as.data.frame(table(dados_instituicoes)) %>%
+  mutate(perc = Freq / sum(Freq) * 100) %>% 
+  arrange(desc(perc)) %>% 
+  slice_head(n = 10)
+
+# Plotando o gráfico de pizza --------------------------------------------------
+
+
+# Criar uma coluna com rótulo da legenda: "Universidade (XX%)"
+
+dados_pizza$legend_label <- paste0(
+  dados_pizza$Instituição.padronizada.Vinicius, " (", round(dados_pizza$perc, 1), "%)"
+)
+
+
+# Ordenar o fator para que os maiores valores fiquem no topo
+
+dados_pizza$legend_label <- fct_reorder(
+  dados_pizza$legend_label, dados_pizza$perc, .desc = TRUE
+)
+
+
+# Gráfico
+
+(grafico_pizza <- ggplot(dados_pizza, aes(x = 2, y = perc, fill = legend_label)) +
+  geom_col(color = "white", width = 1) +
+  coord_polar(theta = "y") +
+  xlim(0.5, 2.5) +
+  scale_fill_brewer(palette = "Pastel1") +  # tons pastéis e equilibrados
+  labs(fill = "") +
+  theme_void(base_size = 13) +
+  theme(
+    legend.title = element_text(face = "bold"),
+    legend.position = "right",
+    plot.title = element_text(face = "bold", hjust = 0.5)
+  ))
 
 
