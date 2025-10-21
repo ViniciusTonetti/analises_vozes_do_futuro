@@ -228,6 +228,9 @@ dados_counts$Tipo.de.Instituição.Categoria <- factor(
       axis.title.x = element_text(face = "bold")
     ))
 
+# Salvando o plot
+ggsave(paste0("",output_folder,"hist_instituicoes.jpeg"), hist_inst, width = 20, height = 15, units = "cm", dpi = 300)
+
 
 
 # Gráfico de Pizza -------------------------------------------------------------
@@ -273,13 +276,29 @@ dados_pizza$legend_label <- fct_reorder(
   geom_col(color = "white", width = 1) +
   coord_polar(theta = "y") +
   xlim(0.5, 2.5) +
-  scale_fill_brewer(palette = "Pastel1") +  # tons pastéis e equilibrados
+  scale_fill_manual(values = c(
+    "#A8D5BA",
+    "#FFD1DC",
+    "#FFE4B5",
+    "#B0C4DE",
+    "#E6E6FA",
+    "#F5DEB3",
+    "#FFB347",
+    "#C1E1C1",
+    "#D8BFD8",
+    "#F7CAC9" 
+  )) +
   labs(fill = "") +
   theme_void(base_size = 13) +
   theme(
+    legend.text = element_text(size = 13),
     legend.title = element_text(face = "bold"),
     legend.position = "right",
     plot.title = element_text(face = "bold", hjust = 0.5)
-  ))
+  )
+)
 
+
+# Salvando o plot
+ggsave(paste0("",output_folder,"donut_universidaes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
 
