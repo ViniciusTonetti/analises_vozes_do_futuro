@@ -185,7 +185,7 @@ is_alluvia_form(dados_participacao, axes = 1:4)
        fill = ""))
 
 # Salvando o plot
-ggsave(paste0("",output_folder,"relacao_participantes.jpeg"), plot_participacao, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"relacao_participantes.jpeg"), plot_participacao, width = 20, height = 15, units = "cm", dpi = 300)
 
 
 # Proporção Instituições -------------------------------------------------------
@@ -229,7 +229,7 @@ dados_counts$Tipo.de.Instituição.Categoria <- factor(
     ))
 
 # Salvando o plot
-ggsave(paste0("",output_folder,"hist_instituicoes.jpeg"), hist_inst, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"hist_instituicoes.jpeg"), hist_inst, width = 20, height = 15, units = "cm", dpi = 300)
 
 
 
@@ -300,5 +300,11 @@ dados_pizza$legend_label <- fct_reorder(
 
 
 # Salvando o plot
-ggsave(paste0("",output_folder,"donut_universidaes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"donut_universidaes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
+
+
+
+
+
+
 
