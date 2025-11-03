@@ -312,7 +312,15 @@ head(dados_instituicoes)
 
 dados_instituicoes %>%
   count(Tipo.de.Instituição.Categoria) %>%
-  mutate(prop = n / sum(n)) %>%
-  arrange(desc(prop))
+  mutate(prop_inst = n / sum(n)) %>%
+  arrange(desc(prop_inst))
 
+dados_instituicoes %>%
+  count(Tipo.de.cargo) %>%
+  mutate(prop_tipo_de_cargo = n / sum(n)) %>%
+  arrange(desc(prop_tipo_de_cargo))
 
+dados_instituicoes %>%
+  count(Cargo.padronizado.Vinicius) %>%
+  mutate(prop_Cargo.padronizado = n / sum(n)) %>%
+  arrange(desc(prop_Cargo.padronizado))
