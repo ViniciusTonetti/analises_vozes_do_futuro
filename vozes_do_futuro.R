@@ -310,17 +310,34 @@ dados_instituicoes <- data.frame(dados_instituicoes)
 colnames(dados_instituicoes)
 head(dados_instituicoes)
 
+# Tipo de instituição
+
 dados_instituicoes %>%
   count(Tipo.de.Instituição.Categoria) %>%
   mutate(prop_inst = n / sum(n)) %>%
   arrange(desc(prop_inst))
+
+
+# Tipo de cargo
 
 dados_instituicoes %>%
   count(Tipo.de.cargo) %>%
   mutate(prop_tipo_de_cargo = n / sum(n)) %>%
   arrange(desc(prop_tipo_de_cargo))
 
+
+# Cargo
+
 dados_instituicoes %>%
   count(Cargo.padronizado.Vinicius) %>%
   mutate(prop_Cargo.padronizado = n / sum(n)) %>%
   arrange(desc(prop_Cargo.padronizado))
+
+
+# Tipo de Instituição
+
+dados_instituicoes %>%
+  count(Tipo.de.Instituição) %>%
+  mutate(prop_Tipo.de.Instituição = n / sum(n)) %>%
+  arrange(desc(prop_Tipo.de.Instituição))
+
