@@ -199,25 +199,26 @@ head(dados_instituicoes)
 
 
 dados_instituicoes <- dados_instituicoes %>% 
-  select(Tipo.de.Instituição.Categoria, Instituição.padronizada.Vinicius)
+  select(Cargo.padronizado.Vinicius)
 
 
 # calcular contagens
 
 dados_counts <- dados_instituicoes %>%
-  count(Tipo.de.Instituição.Categoria, name = "n") %>%
-  arrange(n)
+  count(Cargo.padronizado.Vinicius, name = "freq") %>%
+  arrange(freq)
 
 # transformar em fator com níveis nessa ordem (menor -> maior),
 # assim o maior ficará no topo do eixo y (posições mais altas)
 
-dados_counts$Tipo.de.Instituição.Categoria <- factor(
-  dados_counts$Tipo.de.Instituição.Categoria,
-  levels = dados_counts$Tipo.de.Instituição.Categoria
+dados_counts$Cargo.padronizado.Vinicius <- factor(
+  dados_counts$Cargo.padronizado.Vinicius,
+  levels = dados_counts$Cargo.padronizado.Vinicius
 )
 
 # plot
-(hist_inst <- ggplot(dados_counts, aes(y = Tipo.de.Instituição.Categoria, x = n)) +
+
+(hist_inst <- ggplot(dados_counts, aes(y = Cargo.padronizado.Vinicius, x = freq)) +
     geom_col(fill = "lightgray", width = 0.6, show.legend = FALSE) +
     labs(
       x = "Número de pessoas",
