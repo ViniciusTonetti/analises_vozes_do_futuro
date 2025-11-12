@@ -220,7 +220,7 @@ dados_counts$Cargo.padronizado.Vinicius <- factor(
 # plot
 
 (hist_inst <- ggplot(dados_counts, aes(y = Cargo.padronizado.Vinicius, x = freq)) +
-    geom_col(fill = "lightgray", width = 0.6, show.legend = FALSE) +
+    geom_col(fill = "gray", width = 0.6, show.legend = FALSE) +
     labs(
       x = "Número de pessoas",
       y = ""
@@ -303,11 +303,11 @@ dados_pizza$legend_label <- fct_reorder(
   scale_fill_manual(values = c(
     "#A8D5BA",
     "#FFD1DC",
-    "#FFE4B5",
-    "#B0C4DE",
-    "#E6E6FA",
+    "brown",
+    "skyblue",
     "#F5DEB3",
     "#FFB347",
+    "#E6E6FA",
     "#C1E1C1",
     "#D8BFD9",
     "lightcoral"
