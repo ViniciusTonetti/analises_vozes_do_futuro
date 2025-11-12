@@ -217,23 +217,60 @@ dados_counts$Cargo.padronizado.Vinicius <- factor(
   levels = dados_counts$Cargo.padronizado.Vinicius
 )
 
-# plot
+#Agrupar categorias com freq < 6 como "Outros"
 
-(hist_inst <- ggplot(dados_counts, aes(y = Cargo.padronizado.Vinicius, x = freq)) +
-    geom_col(fill = "gray", width = 0.6, show.legend = FALSE) +
-    labs(
-      x = "Número de pessoas",
-      y = ""
-    ) +
-    theme_minimal(base_size = 13) +
-    theme(
-      strip.text = element_text(face = "bold"),
-      axis.title.y = element_text(face = "bold"),
-      axis.title.x = element_text(face = "bold")
-    ))
+dados_agrupados <- dados_counts %>%
+  mutate(Cargo.agrupado = ifelse(freq < 6, "Outros", as.character(Cargo.padronizado.Vinicius))) %>%
+  group_by(Cargo.agrupado) %>%
+  summarise(freq = sum(freq), .groups = "drop") %>%
+  arrange(desc(freq))
+
+# Ordenar o eixo y de acordo com a frequência
+
+dados_agrupados <- dados_counts %>%
+  mutate(Cargo.agrupado = ifelse(freq < 6, "Outros", as.character(Cargo.padronizado.Vinicius))) %>%
+  group_by(Cargo.agrupado) %>%
+  summarise(freq = sum(freq), .groups = "drop") %>%
+  arrange(desc(freq)) %>%
+  # mover "Outros" explicitamente para o final
+  mutate(Cargo.agrupado = factor(Cargo.agrupado, 
+                                 levels = c(setdiff(Cargo.agrupado, "Outros"), "Outros"))) %>%
+  arrange(factor(Cargo.agrupado, levels = levels(Cargo.agrupado))) %>%
+  arrange(if_else(Cargo.agrupado == "Outros", 1, 0))
+
+
+# Garante que o ggplot respeite a ordem atual das linhas
+dados_agrupados$Cargo.agrupado <- factor(
+  dados_agrupados$Cargo.agrupado,
+  levels = dados_agrupados$Cargo.agrupado
+)
+
+# inverter os níveis para que a primeira linha da tibble apareça no topo
+dados_agrupados$Cargo.agrupado <- factor(
+  dados_agrupados$Cargo.agrupado,
+  levels = rev(as.character(dados_agrupados$Cargo.agrupado))
+)
+
+
+# Plot
+(hist_inst <- ggplot(dados_agrupados, aes(y = Cargo.agrupado, x = freq)) +
+  geom_col(fill = "gray", width = 0.6, show.legend = FALSE) +
+  labs(
+    x = "Número de pessoas",
+    y = ""
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    strip.text = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold")
+  ))
+
+
+
 
 # Salvando o plot
-#ggsave(paste0("",output_folder,"hist_instituicoes.jpeg"), hist_inst, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"hist_cargos.jpeg"), hist_inst, width = 30, height = 15, units = "cm", dpi = 300)
 
 
 
