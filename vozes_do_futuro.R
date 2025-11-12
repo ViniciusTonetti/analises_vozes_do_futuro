@@ -14,6 +14,7 @@ library(readxl)
 library(ggalluvial)
 library(ggrepel)
 library(forcats)
+library(stringr)
 
 
 # Limpando ambiente e output folder --------------------------------------------
@@ -245,10 +246,30 @@ dados_instituicoes <- data.frame(dados_instituicoes)
 colnames(dados_instituicoes)
 head(dados_instituicoes)
 
+dados_instituicoes %>%
+  select(Instituição.padronizada.Vinicius) %>%
+  distinct()
+
+dados_instituicoes <- dados_instituicoes %>%
+  mutate(Instituição.padronizada.Vinicius = if_else(
+    Instituição.padronizada.Vinicius == "Usp",
+    "USP",
+    Instituição.padronizada.Vinicius
+  ))
+
+dados_instituicoes <- dados_instituicoes %>%
+  mutate(Instituição.padronizada.Vinicius = if_else(
+    Instituição.padronizada.Vinicius == "UFSCAR",
+    "UFSCar",
+    Instituição.padronizada.Vinicius
+  ))
+
+dados_instituicoes %>%
+  select(Instituição.padronizada.Vinicius) %>%
+  distinct()
+
 
 dados_instituicoes <- dados_instituicoes %>% 
-  select(Tipo.de.Instituição.Categoria, Instituição.padronizada.Vinicius) %>% 
-  filter(Tipo.de.Instituição.Categoria == "Universidade") %>% 
   select(Instituição.padronizada.Vinicius)
 
 dados_pizza <- as.data.frame(table(dados_instituicoes)) %>%
