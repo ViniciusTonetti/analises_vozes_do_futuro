@@ -283,6 +283,8 @@ dados_instituicoes <- data.frame(dados_instituicoes)
 colnames(dados_instituicoes)
 head(dados_instituicoes)
 
+colnames(dados_instituicoes)
+
 dados_instituicoes %>%
   select(Instituição.padronizada.Vinicius) %>%
   distinct()
@@ -401,4 +403,20 @@ dados_instituicoes %>%
   count(Tipo.de.Instituição) %>%
   mutate(prop_Tipo.de.Instituição = n / sum(n)) %>%
   arrange(desc(prop_Tipo.de.Instituição))
+
+
+# Informações adicionais -------------------------------------------------------
+
+# Número de cidades
+
+dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
+dados_instituicoes <- data.frame(dados_instituicoes)
+colnames(dados_instituicoes)
+head(dados_instituicoes)
+
+colnames(dados_instituicoes)
+
+dados_instituicoes %>% 
+  select(Cidade) %>% 
+  distinct()
 
