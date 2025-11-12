@@ -15,6 +15,7 @@ library(ggalluvial)
 library(ggrepel)
 library(forcats)
 library(stringr)
+library(writexl)
 
 
 # Limpando ambiente e output folder --------------------------------------------
@@ -307,6 +308,8 @@ dados_instituicoes %>%
   select(Instituição.padronizada.Vinicius) %>%
   distinct()
 
+# Numero instituições: 51
+
 
 dados_instituicoes <- dados_instituicoes %>% 
   select(Instituição.padronizada.Vinicius)
@@ -407,7 +410,7 @@ dados_instituicoes %>%
 
 # Informações adicionais -------------------------------------------------------
 
-# Número de cidades
+# Porcentagem cada cargo
 
 dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
 dados_instituicoes <- data.frame(dados_instituicoes)
@@ -416,7 +419,18 @@ head(dados_instituicoes)
 
 colnames(dados_instituicoes)
 
-dados_instituicoes %>% 
-  select(Cidade) %>% 
-  distinct()
+cargo <- dados_instituicoes %>% 
+  select(Cargo.padronizado.Vinicius)
+
+porcentagem_cargo <- cargo %>%
+  group_by(Cargo.padronizado.Vinicius) %>%         # agrupa por cargo
+  summarise(freq = n()) %>%                        # conta quantas vezes cada cargo aparece
+  mutate(porcentagem = (freq / sum(freq)) * 100) %>%  # calcula a % em relação ao total
+  arrange(desc(porcentagem))
+
+print(porcentagem_cargo, n = 30)
+
+# Salvando
+
+#writexl::write_xlsx(porcentagem_cargo, paste0(output_folder, "porcentagem_cada_cargo.xlsx", sep = ""))
 
