@@ -49,7 +49,7 @@ df <- tribble(
 # Plots ------------------------------------------------------------------------
 
 (prop_grupos <- ggplot(df, aes(x = reorder(Categoria, Valor), y = Valor)) +
-  geom_col(fill = "lightgray", show.legend = FALSE, width = 0.5) +
+  geom_col(fill = "gray", show.legend = FALSE, width = 0.5) +
   facet_wrap(~Grupo, scales = "free_y", ncol = 2) +
   coord_flip() +
   labs(x = "", y = "Número de pessoas") +
@@ -57,7 +57,9 @@ df <- tribble(
   theme(
     strip.text = element_text(face = "bold"),
     axis.title.y = element_text(face = "bold"),
-    axis.title.x = element_text(face = "bold")
+    axis.title.x = element_text(face = "bold"),
+    axis.text.x = element_text(face = "bold"),      # bold x-axis tick labels
+    axis.text.y = element_text(face = "bold")
   ))
 
 
