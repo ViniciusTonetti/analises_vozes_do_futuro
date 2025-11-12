@@ -191,7 +191,7 @@ is_alluvia_form(dados_participacao, axes = 1:4)
 #ggsave(paste0("",output_folder,"relacao_participantes.jpeg"), plot_participacao, width = 20, height = 15, units = "cm", dpi = 300)
 
 
-# Proporção Instituições -------------------------------------------------------
+# Proporção Cargos -------------------------------------------------------------
 
 dados_instituicoes <- readxl::read_xls("E:/GitHub_Vinicius/analises_vozes_do_futuro/300(inscritos)_lista final sem nome.xls")
 dados_instituicoes <- data.frame(dados_instituicoes)
@@ -309,8 +309,8 @@ dados_pizza$legend_label <- fct_reorder(
     "#F5DEB3",
     "#FFB347",
     "#C1E1C1",
-    "#D8BFD8",
-    "#F7CAC9" 
+    "#D8BFD9",
+    "lightcoral"
   )) +
   labs(fill = "") +
   theme_void(base_size = 13) +
@@ -324,7 +324,7 @@ dados_pizza$legend_label <- fct_reorder(
 
 
 # Salvando o plot
-#ggsave(paste0("",output_folder,"donut_universidaes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
+#ggsave(paste0("",output_folder,"donut_instituicoes.jpeg"), grafico_pizza, width = 20, height = 15, units = "cm", dpi = 300)
 
 
 # Calculando porcentagens
